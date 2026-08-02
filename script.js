@@ -1,433 +1,255 @@
-/*====================================
-
-LOVE GIFT HAMPERS
-PREMIUM SCRIPT
-
-====================================*/
-
-// ================= CART =================
-
-let cart = 0;
-
-const cartCount = document.getElementById("cart-count");
-
-document.querySelectorAll(".btn-cart").forEach(button => {
-
-button.addEventListener("click", () => {
-
-cart++;
-
-if(cartCount){
-
-cartCount.textContent = cart;
-
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-button.innerHTML = "✔ Added";
-
-button.style.background = "#28a745";
-
-setTimeout(()=>{
-
-button.innerHTML = "Add To Cart";
-
-button.style.background = "";
-
-},1200);
-
-});
-
-});
-
-// ================= SCROLL TO TOP =================
-
-const scrollBtn = document.getElementById("scrollTop");
-
-window.addEventListener("scroll",()=>{
-
-if(window.scrollY>400){
-
-scrollBtn.style.display="flex";
-
-}else{
-
-scrollBtn.style.display="none";
-
+body{
+    background:#f3f3f3;
 }
 
-});
+/* Header */
 
-if(scrollBtn){
-
-scrollBtn.style.display="none";
-
-scrollBtn.addEventListener("click",()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-});
-
-}// ================= DYNAMIC PRODUCTS =================
-
-const dynamicProducts = document.getElementById("dynamicProducts");
-const loadBtn = document.getElementById("loadProducts");
-
-const products = [];
-
-for(let i=7;i<=30;i++){
-
-products.push({
-
-name:`Luxury Gift Hamper ${i}`,
-
-image:`Product${i}.jpg`,
-
-price:999+(i*80),
-
-oldPrice:1499+(i*100),
-
-reviews:150+i,
-
-discount:20+(i%15)
-
-});
-
+.header{
+    background:#131921;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5%;
+    gap:20px;
+    flex-wrap:wrap;
 }
 
-let loaded = 0;
-
-function loadProducts(){
-
-if(!dynamicProducts) return;
-
-const end = Math.min(loaded+6,products.length);
-
-for(let i=loaded;i<end;i++){
-
-const p = products[i];
-
-dynamicProducts.innerHTML += `
-
-<article class="product-card">
-
-<div class="badge">
-
-${p.discount}% OFF
-
-</div>
-
-<img src="${p.image}" alt="${p.name}">
-
-<div class="product-content">
-
-<h3>${p.name}</h3>
-
-<div class="rating">
-
-★★★★★
-
-<span>(${p.reviews} Reviews)</span>
-
-</div>
-
-<div class="price">
-
-₹${p.price}
-
-<del>₹${p.oldPrice}</del>
-
-</div>
-
-<p>
-
-Premium customized luxury gift hamper
-crafted for every special occasion.
-
-</p>
-
-<div class="product-buttons">
-
-<button class="btn-outline">
-
-View Details
-
-</button>
-
-<button class="btn-cart">
-
-Add To Cart
-
-</button>
-
-<a class="btn-buy"
-
-href="https://wa.me/919079471045?text=I want to order ${encodeURIComponent(p.name)}">
-
-Buy Now
-
-</a>
-
-</div>
-
-</div>
-
-</article>
-
-`;
-
+.logo h2{
+    color:#ff9900;
 }
 
-loaded = end;
-
-// Re-attach Add to Cart events for newly added cards
-document.querySelectorAll(".btn-cart").forEach(button=>{
-
-if(!button.dataset.bound){
-
-button.dataset.bound="1";
-
-button.addEventListener("click",()=>{
-
-cart++;
-
-if(cartCount){
-
-cartCount.textContent=cart;
-
+.search-box{
+    flex:1;
+    display:flex;
+    max-width:700px;
 }
 
-button.innerHTML="✔ Added";
-
-button.style.background="#28a745";
-
-setTimeout(()=>{
-
-button.innerHTML="Add To Cart";
-
-button.style.background="";
-
-},1200);
-
-});
-
+.search-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    border-radius:5px 0 0 5px;
 }
 
-});
-
-if(loaded>=products.length && loadBtn){
-
-loadBtn.style.display="none";
-
+.search-box button{
+    width:60px;
+    background:#febd69;
+    border:none;
+    cursor:pointer;
+    border-radius:0 5px 5px 0;
+    font-size:18px;
 }
 
+.header-icons{
+    display:flex;
+    gap:25px;
 }
 
-if(loadBtn){
-
-loadBtn.addEventListener("click",loadProducts);
-
-  }// ================= LIVE SEARCH =================
-
-const searchInput = document.querySelector(".search-box input");
-
-if(searchInput){
-
-searchInput.addEventListener("keyup",()=>{
-
-const value = searchInput.value.toLowerCase();
-
-const cards = document.querySelectorAll(".product-card");
-
-cards.forEach(card=>{
-
-const title = card.querySelector("h3").textContent.toLowerCase();
-
-const desc = card.querySelector("p").textContent.toLowerCase();
-
-if(title.includes(value) || desc.includes(value)){
-
-card.style.display="block";
-
-}else{
-
-card.style.display="none";
-
+.header-icons div{
+    text-align:center;
+    cursor:pointer;
 }
 
-});
-
-});
-
+.header-icons i{
+    font-size:20px;
+    margin-bottom:5px;
 }
 
-// ================= VIEW DETAILS =================
+/* Navigation */
 
-document.addEventListener("click",(e)=>{
-
-if(e.target.classList.contains("btn-outline")){
-
-const card = e.target.closest(".product-card");
-
-const name = card.querySelector("h3").textContent;
-
-const price = card.querySelector(".price").innerText;
-
-alert(
-
-"Product : " + name +
-
-"\n\nPrice : " + price +
-
-"\n\nFor complete details please contact us on WhatsApp."
-
-);
-
+.navbar{
+    background:#232f3e;
+    padding:15px;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
 }
 
-});
-
-// ================= SIMPLE FADE ANIMATION =================
-
-const observer = new IntersectionObserver((entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.style.opacity="1";
-
-entry.target.style.transform="translateY(0)";
-
+.navbar a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
 }
 
-});
-
-},
-
-{
-
-threshold:0.15
-
-});
-
-document.querySelectorAll(
-
-".feature-card,.category-card,.product-card,.why-card,.review-card"
-
-).forEach(el=>{
-
-el.style.opacity="0";
-
-el.style.transform="translateY(40px)";
-
-el.style.transition=".6s ease";
-
-observer.observe(el);
-
-});// ================= HERO FLOAT EFFECT =================
-
-const heroImage = document.querySelector(".hero-image img");
-
-if(heroImage){
-
-window.addEventListener("mousemove",(e)=>{
-
-const x=(window.innerWidth/2-e.clientX)/35;
-
-const y=(window.innerHeight/2-e.clientY)/35;
-
-heroImage.style.transform=`translate(${x}px,${y}px)`;
-
-});
-
+.navbar a:hover{
+    color:#ff9900;
 }
 
-// ================= WISHLIST =================
+/* Hero */
 
-document.querySelectorAll(".fa-heart").forEach(icon=>{
-
-icon.addEventListener("click",()=>{
-
-icon.classList.toggle("fa-solid");
-
-icon.classList.toggle("fa-regular");
-
-icon.style.color="#ff2d55";
-
-});
-
-});
-
-// ================= BUTTON RIPPLE =================
-
-document.querySelectorAll(".btn,.btn-buy,.btn-cart,.btn-outline").forEach(btn=>{
-
-btn.addEventListener("click",(e)=>{
-
-const circle=document.createElement("span");
-
-const size=Math.max(btn.clientWidth,btn.clientHeight);
-
-const rect=btn.getBoundingClientRect();
-
-circle.style.width=size+"px";
-
-circle.style.height=size+"px";
-
-circle.style.left=(e.clientX-rect.left-size/2)+"px";
-
-circle.style.top=(e.clientY-rect.top-size/2)+"px";
-
-circle.style.position="absolute";
-
-circle.style.borderRadius="50%";
-
-circle.style.background="rgba(255,255,255,.35)";
-
-circle.style.transform="scale(0)";
-
-circle.style.animation="ripple .6s linear";
-
-circle.style.pointerEvents="none";
-
-btn.style.position="relative";
-
-btn.style.overflow="hidden";
-
-btn.appendChild(circle);
-
-setTimeout(()=>circle.remove(),600);
-
-});
-
-});
-
-// ================= AUTO LOAD FIRST PRODUCTS =================
-
-window.addEventListener("load",()=>{
-
-if(typeof loadProducts==="function"){
-
-loadProducts();
-
+.hero{
+    height:500px;
+    background:url("https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1600&q=80") center/cover;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#fff;
 }
 
-});
-
-// ================= FOOTER YEAR =================
-
-const year=document.querySelector(".copyright p");
-
-if(year){
-
-year.innerHTML=`© ${new Date().getFullYear()} LOVE GIFT HAMPERS. All Rights Reserved.`;
-
+.hero-content{
+    background:rgba(0,0,0,.45);
+    padding:40px;
+    border-radius:12px;
 }
 
-console.log("LOVE GIFT HAMPERS Loaded Successfully");
+.hero h1{
+    font-size:48px;
+}
+
+.hero p{
+    margin:15px 0;
+    font-size:20px;
+}
+
+.btn{
+    display:inline-block;
+    background:#ff9900;
+    color:#000;
+    padding:12px 30px;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#e68900;
+}
+
+/* Categories */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    padding:50px 5%;
+}
+
+.cat-card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.cat-card:hover{
+    transform:translateY(-8px);
+}
+
+.cat-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.cat-card h3{
+    text-align:center;
+    padding:20px;
+}
+
+/* Products */
+
+.products{
+    padding:50px 5%;
+}
+
+.products h2{
+    margin-bottom:25px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.product{
+    background:#fff;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.product:hover{
+    transform:translateY(-8px);
+}
+
+.product img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+}
+
+.product h3{
+    margin:15px 0 8px;
+}
+
+.product h4{
+    color:#B12704;
+    margin-bottom:15px;
+}
+
+.product button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#ffd814;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.product button:hover{
+    background:#f7ca00;
+}
+
+/* Footer */
+
+footer{
+    background:#131921;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+    margin-top:40px;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.header{
+    flex-direction:column;
+}
+
+.header-icons{
+    gap:15px;
+}
+
+.hero{
+    height:350px;
+}
+
+.hero h1{
+    font-size:30px;
+}
+
+.hero p{
+    font-size:16px;
+}
+
+      }
